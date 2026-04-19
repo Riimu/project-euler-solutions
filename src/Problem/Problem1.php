@@ -15,14 +15,14 @@ class Problem1 implements EulerProblem
 {
     public function solve(): string
     {
-        $multiplies = [];
+        $max = 999;
+        $total = $this->sumDivisibleBy(3, $max) + $this->sumDivisibleBy(5, $max) - $this->sumDivisibleBy(15, $max);
+        return (string)$total;
+    }
 
-        for ($i = 1; $i < 1000; $i++) {
-            if ($i % 3 === 0 || $i % 5 === 0) {
-                $multiplies[] = $i;
-            }
-        }
-
-        return (string)array_sum($multiplies);
+    private function sumDivisibleBy(int $divisor, int $max): int
+    {
+        $count = intdiv($max, $divisor);
+        return intdiv($divisor * ($count * ($count + 1)), 2);
     }
 }

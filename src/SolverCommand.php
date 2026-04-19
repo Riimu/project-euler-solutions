@@ -48,7 +48,12 @@ class SolverCommand extends Command
         $solverClass = self::PROBLEM_SOLVERS[$problemName];
         $solver = new $solverClass();
 
-        $output->writeln($solver->solve());
+        $timer = new RunTimer();
+        $solution = $solver->solve();
+        $milliseconds = $timer->getMilliseconds();
+
+        $output->writeln(\sprintf('Solution for the solver "%s" solved in %d ms', $problemName, $milliseconds));
+        $output->writeln($solution);
 
         return Command::SUCCESS;
     }
