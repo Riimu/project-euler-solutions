@@ -15,9 +15,15 @@ class Problem1 implements EulerProblem
 {
     public function solve(): string
     {
-        $max = 999;
-        $total = $this->sumDivisibleBy(3, $max) + $this->sumDivisibleBy(5, $max) - $this->sumDivisibleBy(15, $max);
-        return (string)$total;
+        return (string) $this->getSumOfNumbersDivisibleUpTo(3, 5, 999);
+    }
+
+    private function getSumOfNumbersDivisibleUpTo(int $first, int $second, int $max): int
+    {
+        return
+            $this->sumDivisibleBy($first, $max) +
+            $this->sumDivisibleBy($second, $max) -
+            $this->sumDivisibleBy($first * $second, $max);
     }
 
     private function sumDivisibleBy(int $divisor, int $max): int

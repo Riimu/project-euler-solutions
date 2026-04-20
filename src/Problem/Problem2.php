@@ -15,18 +15,24 @@ class Problem2 implements EulerProblem
 {
     public function solve(): string
     {
-        $previous = 1;
-        $current = 2;
-        $sum = 0;
+        return (string) $this->getSumOfEvenFibonacciUpTo(4_000_000 - 1);
+    }
 
-        while ($current < 4_000_000) {
-            if ($current % 2 === 0) {
-                $sum += $current;
-            }
-
-            [$previous, $current] = [$current, $previous + $current];
+    private function getSumOfEvenFibonacciUpTo(int $max): int
+    {
+        if ($max < 3) {
+            return 0;
         }
 
-        return (string) $sum;
+        $previous = 2;
+        $current = 8;
+        $sum = 2;
+
+        while ($current <= $max) {
+            $sum += $current;
+            [$previous, $current] = [$current, 4 * $current + $previous];
+        }
+
+        return $sum;
     }
 }
