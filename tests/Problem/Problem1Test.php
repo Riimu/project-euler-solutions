@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Riimu\EulerSolver\Test\Problem;
+
 use PHPUnit\Framework\TestCase;
 use Riimu\EulerSolver\Problem\Problem1;
 
