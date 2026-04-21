@@ -7,6 +7,7 @@ namespace Riimu\EulerSolver;
 use http\Exception\InvalidArgumentException;
 use Riimu\EulerSolver\Problem\Problem1;
 use Riimu\EulerSolver\Problem\Problem2;
+use Riimu\EulerSolver\Problem\Problem3;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -24,6 +25,7 @@ class SolverCommand extends Command
     private const array PROBLEM_SOLVERS = [
         'Problem1' => Problem1::class,
         'Problem2' => Problem2::class,
+        'Problem3' => Problem3::class,
     ];
 
     protected function configure(): void
