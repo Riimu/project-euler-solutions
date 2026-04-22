@@ -15,28 +15,33 @@ class Problem4 implements EulerProblem
 {
     public function solve(): string
     {
-        $max = 0;
+        return (string) $this->findLargestPalindrome(100, 999);
+    }
 
-        for ($i = 999; $i > 0; $i--) {
-            if ($i * $i < $max) {
+    private function findLargestPalindrome(int $min, int $max): int
+    {
+        $largest = 0;
+
+        for ($i = $max; $i >= $min; $i--) {
+            if ($i * $i <= $largest) {
                 break;
             }
 
-            for ($j = $i; $j > 0; $j--) {
+            for ($j = $i; $j >= $min; $j--) {
                 $product = $i * $j;
 
-                if ($product < $max) {
+                if ($product <= $largest) {
                     break;
                 }
 
                 if ($this->isPalindrome((string) $product)) {
-                    $max = $product;
+                    $largest = $product;
                     break;
                 }
             }
         }
 
-        return (string) $max;
+        return $largest;
     }
 
     private function isPalindrome(string $text): bool
