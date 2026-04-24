@@ -15,10 +15,14 @@ class Problem6 implements EulerProblem
 {
     public function solve(): string
     {
-        $range = range(1, 100);
-        $sumOfSquares = array_reduce($range, static fn (int $carry, int $item) => $carry + $item * $item, 0);
-        $squareOfSum = array_sum($range) ** 2;
+        return (string) $this->sumSquareAndSquareSumDifference(100);
+    }
 
-        return (string) abs($sumOfSquares - $squareOfSum);
+    private function sumSquareAndSquareSumDifference(int $limit): int
+    {
+        $sumOfSquares = (2 * $limit + 1) * ($limit + 1) * $limit / 6;
+        $squareOfSum = ($limit * ($limit + 1) / 2) ** 2;
+
+        return $squareOfSum - $sumOfSquares;
     }
 }
