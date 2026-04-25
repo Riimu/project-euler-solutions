@@ -12,7 +12,9 @@ namespace Riimu\EulerSolver\Library;
 class PrimeMath
 {
     /** @var list<int> */
-    private static array $primes = [2, 3, 5, 7];
+    private static array $primes = [2, 3];
+
+    private static int $primeCandidate = 5;
 
     /**
      * @return \Generator<int, int>
@@ -21,7 +23,7 @@ class PrimeMath
     {
         for ($i = 0; true; $i++) {
             if (!\array_key_exists($i, self::$primes)) {
-                self::findNextPrime();
+                self::findMorePrimes();
             }
 
             yield self::$primes[$i];
@@ -30,6 +32,10 @@ class PrimeMath
 
     public static function isPrime(int $number): bool
     {
+        if ($number <= array_last(self::$primes)) {
+            return \in_array($number, self::$primes, true);
+        }
+
         $maxFactor = (int) sqrt($number);
 
         foreach (self::iteratePrimes() as $prime) {
@@ -45,14 +51,25 @@ class PrimeMath
         return true;
     }
 
-    private static function findNextPrime(): void
+    private static function findMorePrimes(): void
     {
-        $test = array_last(self::$primes);
+        $primeFound = false;
 
         do {
-            $test += $test % 10 === 3 ? 4 : 2;
-        } while (!self::isPrime($test));
+            foreach ([self::$primeCandidate, self::$primeCandidate + 2] as $candidate) {
+                $maxFactor = (int) sqrt($candidate);
 
-        self::$primes[] = $test;
+                for ($i = 1; self::$primes[$i] <= $maxFactor; $i++) {
+                    if ($candidate % self::$primes[$i] === 0) {
+                        continue 2;
+                    }
+                }
+
+                $primeFound = true;
+                self::$primes[] = $candidate;
+            }
+
+            self::$primeCandidate += 6;
+        } while (!$primeFound);
     }
 }
