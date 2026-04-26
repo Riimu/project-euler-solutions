@@ -39,21 +39,27 @@ class Problem8 implements EulerProblem
         );
     }
 
-    private function findLargestProductInNumber(string $number, int $digits): int
+    private function findLargestProductInNumber(string $number, int $count): int
     {
-        $max = 0;
+        $maxProduct = 0;
+        $digits = [];
 
-        for ($i = \strlen($number) - $digits; $i >= 0; $i--) {
-            $product = substr($number, $i, $digits)
-                |> str_split(...)
-                |> (static fn (array $x): array => array_map(intval(...), $x))
-                |> array_product(...);
+        for ($i = \strlen($number); $i > 0; $i--) {
+            $next = (int) $number[$i - 1];
 
-            if ($product > $max) {
-                $max = $product;
+            if ($next === 0) {
+                $digits = [];
+                continue;
+            }
+
+            $digits[] = $next;
+
+            if (\count($digits) === $count) {
+                $maxProduct = max(array_product($digits), $maxProduct);
+                array_shift($digits);
             }
         }
 
-        return $max;
+        return $maxProduct;
     }
 }
