@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Riimu\EulerSolver;
 
-use http\Exception\InvalidArgumentException;
 use Riimu\EulerSolver\Problem\Problem1;
 use Riimu\EulerSolver\Problem\Problem2;
 use Riimu\EulerSolver\Problem\Problem3;
@@ -12,6 +11,7 @@ use Riimu\EulerSolver\Problem\Problem4;
 use Riimu\EulerSolver\Problem\Problem5;
 use Riimu\EulerSolver\Problem\Problem6;
 use Riimu\EulerSolver\Problem\Problem7;
+use Riimu\EulerSolver\Problem\Problem8;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,6 +34,7 @@ class SolverCommand extends Command
         'Problem5' => Problem5::class,
         'Problem6' => Problem6::class,
         'Problem7' => Problem7::class,
+        'Problem8' => Problem8::class,
     ];
 
     protected function configure(): void
@@ -47,7 +48,7 @@ class SolverCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if (!$output instanceof ConsoleOutputInterface) {
-            throw new InvalidArgumentException('This command is only defined for console output');
+            throw new \InvalidArgumentException('This command is only defined for console output');
         }
 
         $problemName = $input->getArgument('problem');
