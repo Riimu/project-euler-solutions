@@ -12,6 +12,7 @@ use Riimu\EulerSolver\Problem\Problem5;
 use Riimu\EulerSolver\Problem\Problem6;
 use Riimu\EulerSolver\Problem\Problem7;
 use Riimu\EulerSolver\Problem\Problem8;
+use Riimu\EulerSolver\Problem\Problem9;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,6 +36,7 @@ class SolverCommand extends Command
         'Problem6' => Problem6::class,
         'Problem7' => Problem7::class,
         'Problem8' => Problem8::class,
+        'Problem9' => Problem9::class,
     ];
 
     protected function configure(): void
