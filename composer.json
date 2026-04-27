@@ -1,4 +1,11 @@
 {
+    "require": {
+        "symfony/console": "^8.0"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "phpunit/phpunit": "^13.1"
+    },
     "autoload": {
         "psr-4": {
             "Riimu\\EulerSolver\\": "src"
@@ -9,11 +16,8 @@
             "Riimu\\EulerSolver\\Test\\": "tests"
         }
     },
-    "require-dev": {
-        "phpunit/phpunit": "^13.1",
-        "friendsofphp/php-cs-fixer": "^3.95"
-    },
-    "require": {
-        "symfony/console": "^8.0"
+    "scripts": {
+        "fix": "php-cs-fixer fix",
+        "test": "phpunit"
     }
 }
