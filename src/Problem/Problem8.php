@@ -30,7 +30,7 @@ class Problem8 implements EulerProblem
     {
         return (string) $this->findLargestProductInNumber(
             preg_replace('/\s+/', '', self::DIGITS),
-            13
+            13,
         );
     }
 

@@ -21,9 +21,9 @@ class Problem1 implements EulerProblem
     private function getSumOfNumbersDivisibleUpTo(int $first, int $second, int $max): int
     {
         return
-            $this->sumDivisibleBy($first, $max) +
-            $this->sumDivisibleBy($second, $max) -
-            $this->sumDivisibleBy($first * $second, $max);
+            $this->sumDivisibleBy($first, $max)
+            + $this->sumDivisibleBy($second, $max)
+            - $this->sumDivisibleBy($first * $second, $max);
     }
 
     private function sumDivisibleBy(int $divisor, int $max): int
