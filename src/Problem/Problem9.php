@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
+use Riimu\EulerSolver\Library\FactoringMath;
 
 /**
  * @author Riikka Kalliomäki <riikka.kalliomaki@gmail.com>
@@ -19,18 +20,45 @@ class Problem9 implements EulerProblem
     }
 
     /**
-     * @param int $number
+     * @param int $sum
      * @return list<list<int>>
      */
-    public function findPythagoreanTriplets(int $number): array
+    public function findPythagoreanTriplets(int $sum): array
     {
+        if ($sum % 2 !== 0) {
+            return [];
+        }
+
         $triplets = [];
 
-        for ($i = 1; $i * 3 + 3 <= $number; $i++) {
-            for ($j = $i + 1; $i + $j * 2 + 1 <= $number; $j++) {
-                if ($i ** 2 + $j ** 2 === ($number - $i - $j) ** 2) {
-                    $triplets[] = [$i, $j, $number - $i - $j];
+        // Solve via a + b + c = 2 * m * (m + n) * d
+        $half = $sum / 2;
+        $max = (int) (ceil(sqrt($half))) - 1;
+
+        for ($m = 2; $m <= $max; $m++) {
+            if ($half % $m !== 0) {
+                continue;
+            }
+
+            $sm = $half / $m;
+
+            while ($sm % 2 === 0) {
+                $sm /= 2;
+            }
+
+            $k = $m % 2 === 1 ? $m + 2 : $m + 1;
+
+            while ($k < 2 * $m && $k <= $sm) {
+                if ($sm % $k === 0 && FactoringMath::getGreatestCommonDivisor($k, $m) === 1) {
+                    $d = $half / ($k * $m);
+                    $n = $k - $m;
+                    $a = $d * ($m * $m - $n * $n);
+                    $b = 2 * $d * $m * $n;
+                    $c = $d * ($m * $m + $n * $n);
+                    $triplets[] = [$a, $b, $c];
                 }
+
+                $k += 2;
             }
         }
 

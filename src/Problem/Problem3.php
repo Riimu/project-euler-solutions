@@ -21,6 +21,6 @@ class Problem3 implements EulerProblem
 
     private function getHighestFactor(int $number): int
     {
-        return max(FactoringMath::getFactors($number));
+        return array_last(FactoringMath::getFactors($number));
     }
 }

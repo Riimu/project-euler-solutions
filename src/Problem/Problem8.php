@@ -37,10 +37,11 @@ class Problem8 implements EulerProblem
     private function findLargestProductInNumber(string $number, int $count): int
     {
         $maxProduct = 0;
+        $length = \strlen($number);
         $digits = [];
 
-        for ($i = \strlen($number); $i > 0; $i--) {
-            $next = (int) $number[$i - 1];
+        for ($i = 0; $i < $length; $i++) {
+            $next = (int) $number[$i];
 
             if ($next === 0) {
                 $digits = [];

@@ -28,12 +28,8 @@ class Problem5 implements EulerProblem
         $commonFactors = [];
 
         foreach ($numbers as $number) {
-            $factors = array_count_values(FactoringMath::getFactors($number));
-
-            foreach ($factors as $factor => $count) {
-                if (!isset($commonFactors[$factor]) || $count > $commonFactors[$factor]) {
-                    $commonFactors[$factor] = $count;
-                }
+            foreach (FactoringMath::countFactors($number) as $factor => $count) {
+                $commonFactors[$factor] = max($commonFactors[$factor] ?? 0, $count);
             }
         }
 
