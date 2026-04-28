@@ -19,4 +19,10 @@ class Problem7Test extends TestCase
         $solver = new Problem7();
         self::assertSame('104743', $solver->solve());
     }
+
+    public function testExampleSolution(): void
+    {
+        $solver = new Problem7();
+        self::assertSame(13, $solver->getNthPrime(6));
+    }
 }

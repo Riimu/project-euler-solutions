@@ -16,10 +16,10 @@ class Problem7 implements EulerProblem
 {
     public function solve(): string
     {
-        return (string) $this->findNthPrime(10_001);
+        return (string) $this->getNthPrime(10_001);
     }
 
-    private function findNthPrime(int $number): int
+    public function getNthPrime(int $number): int
     {
         $count = 1;
         $prime = 2;

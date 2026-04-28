@@ -19,4 +19,10 @@ class Problem1Test extends TestCase
         $solver = new Problem1();
         self::assertSame('233168', $solver->solve());
     }
+
+    public function testExampleSolution(): void
+    {
+        $solver = new Problem1();
+        self::assertSame(23, $solver->getSumOfNumbersDivisibleBelow(3, 5, 10));
+    }
 }

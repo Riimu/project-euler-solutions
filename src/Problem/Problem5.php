@@ -23,7 +23,7 @@ class Problem5 implements EulerProblem
      * @param list<int> $numbers
      * @return int
      */
-    private function getSmallestDivisible(array $numbers): int
+    public function getSmallestDivisible(array $numbers): int
     {
         $commonFactors = [];
 

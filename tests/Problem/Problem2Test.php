@@ -19,4 +19,10 @@ class Problem2Test extends TestCase
         $solver = new Problem2();
         self::assertSame('4613732', $solver->solve());
     }
+
+    public function testExampleSolution(): void
+    {
+        $solver = new Problem2();
+        self::assertSame(44, $solver->getSumOfEvenFibonacciBelow(90));
+    }
 }

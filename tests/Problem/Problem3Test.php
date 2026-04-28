@@ -19,4 +19,10 @@ class Problem3Test extends TestCase
         $solver = new Problem3();
         self::assertSame('6857', $solver->solve());
     }
+
+    public function testExampleSolution(): void
+    {
+        $solver = new Problem3();
+        self::assertSame(29, $solver->getHighestPrimeFactor(13195));
+    }
 }

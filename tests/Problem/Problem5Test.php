@@ -19,4 +19,10 @@ class Problem5Test extends TestCase
         $solver = new Problem5();
         self::assertSame('232792560', $solver->solve());
     }
+
+    public function testExampleSolution(): void
+    {
+        $solver = new Problem5();
+        self::assertSame(2520, $solver->getSmallestDivisible(range(1, 10)));
+    }
 }

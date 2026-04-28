@@ -16,15 +16,15 @@ class Problem10 implements EulerProblem
 {
     public function solve(): string
     {
-        return (string) $this->sumOfPrimesBelow(2_000_000);
+        return (string) $this->getSumOfPrimesBelow(2_000_000);
     }
 
-    private function sumOfPrimesBelow(int $number): int
+    public function getSumOfPrimesBelow(int $limit): int
     {
         $sum = 0;
 
         foreach (PrimeMath::iteratePrimes() as $prime) {
-            if ($prime >= $number) {
+            if ($prime >= $limit) {
                 break;
             }
 

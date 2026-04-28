@@ -19,4 +19,10 @@ class Problem10Test extends TestCase
         $solver = new Problem10();
         self::assertSame('142913828922', $solver->solve());
     }
+
+    public function testExampleSolution(): void
+    {
+        $solver = new Problem10();
+        self::assertSame(17, $solver->getSumOfPrimesBelow(10));
+    }
 }

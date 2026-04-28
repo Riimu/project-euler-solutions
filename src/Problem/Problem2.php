@@ -15,11 +15,13 @@ class Problem2 implements EulerProblem
 {
     public function solve(): string
     {
-        return (string) $this->getSumOfEvenFibonacciUpTo(4_000_000 - 1);
+        return (string) $this->getSumOfEvenFibonacciBelow(4_000_000);
     }
 
-    private function getSumOfEvenFibonacciUpTo(int $max): int
+    public function getSumOfEvenFibonacciBelow(int $limit): int
     {
+        $max = $limit - 1;
+
         if ($max < 3) {
             return 0;
         }

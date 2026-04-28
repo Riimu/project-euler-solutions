@@ -19,4 +19,10 @@ class Problem9Test extends TestCase
         $solver = new Problem9();
         self::assertSame('31875000', $solver->solve());
     }
+
+    public function testExampleSolution(): void
+    {
+        $solver = new Problem9();
+        self::assertSame([3, 4, 5], $solver->findPythagoreanTriplets(12));
+    }
 }

@@ -16,10 +16,10 @@ class Problem3 implements EulerProblem
 {
     public function solve(): string
     {
-        return (string) $this->getHighestFactor(600_851_475_143);
+        return (string) $this->getHighestPrimeFactor(600_851_475_143);
     }
 
-    private function getHighestFactor(int $number): int
+    public function getHighestPrimeFactor(int $number): int
     {
         return array_last(FactoringMath::getFactors($number));
     }

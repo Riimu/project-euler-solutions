@@ -19,4 +19,10 @@ class Problem8Test extends TestCase
         $solver = new Problem8();
         self::assertSame('23514624000', $solver->solve());
     }
+
+    public function testExampleSolution(): void
+    {
+        $solver = new Problem8();
+        self::assertSame(5832, $solver->findLargestProductInNumber(Problem8::DIGITS, 4));
+    }
 }

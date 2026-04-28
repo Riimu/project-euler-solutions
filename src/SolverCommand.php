@@ -4,21 +4,12 @@ declare(strict_types=1);
 
 namespace Riimu\EulerSolver;
 
-use Riimu\EulerSolver\Problem\Problem1;
-use Riimu\EulerSolver\Problem\Problem10;
-use Riimu\EulerSolver\Problem\Problem2;
-use Riimu\EulerSolver\Problem\Problem3;
-use Riimu\EulerSolver\Problem\Problem4;
-use Riimu\EulerSolver\Problem\Problem5;
-use Riimu\EulerSolver\Problem\Problem6;
-use Riimu\EulerSolver\Problem\Problem7;
-use Riimu\EulerSolver\Problem\Problem8;
-use Riimu\EulerSolver\Problem\Problem9;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Finder\Finder;
 
 /**
  * @author Riikka Kalliomäki <riikka.kalliomaki@gmail.com>
@@ -27,20 +18,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class SolverCommand extends Command
 {
-    /** @var array<string, class-string<EulerProblem>> */
-    private const array PROBLEM_SOLVERS = [
-        'Problem1' => Problem1::class,
-        'Problem2' => Problem2::class,
-        'Problem3' => Problem3::class,
-        'Problem4' => Problem4::class,
-        'Problem5' => Problem5::class,
-        'Problem6' => Problem6::class,
-        'Problem7' => Problem7::class,
-        'Problem8' => Problem8::class,
-        'Problem9' => Problem9::class,
-        'Problem10' => Problem10::class,
-    ];
-
     protected function configure(): void
     {
         $this
@@ -56,13 +33,14 @@ class SolverCommand extends Command
         }
 
         $problemName = $input->getArgument('problem');
+        $problemSolvers = $this->getProblemSolvers();
 
-        if (!isset(self::PROBLEM_SOLVERS[$problemName])) {
+        if (!isset($problemSolvers[$problemName])) {
             $output->getErrorOutput()->writeln(\sprintf('Invalid problem "%s"', $problemName));
             return Command::FAILURE;
         }
 
-        $solverClass = self::PROBLEM_SOLVERS[$problemName];
+        $solverClass = $problemSolvers[$problemName];
         $solver = new $solverClass();
 
         $timer = new RunTimer();
@@ -73,5 +51,25 @@ class SolverCommand extends Command
         $output->writeln($solution);
 
         return Command::SUCCESS;
+    }
+
+    /**
+     * @return array<string, class-string<EulerProblem>>
+     */
+    private function getProblemSolvers(): array
+    {
+        $problems = [];
+        $finder = new Finder()->files()->in(__DIR__ . '/Problem')->name('Problem*.php');
+
+        foreach ($finder as $file) {
+            $name = $file->getBasename('.php');
+            $class = 'Riimu\\EulerSolver\\Problem\\' . $name;
+
+            if (class_exists($class)) {
+                $problems[$name] = $class;
+            }
+        }
+
+        return $problems;
     }
 }

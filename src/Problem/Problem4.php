@@ -15,10 +15,10 @@ class Problem4 implements EulerProblem
 {
     public function solve(): string
     {
-        return (string) $this->findLargestPalindrome(100, 999);
+        return (string) $this->getLargestPalindromeOfProduct(100, 999);
     }
 
-    private function findLargestPalindrome(int $min, int $max): int
+    public function getLargestPalindromeOfProduct(int $min, int $max): int
     {
         $largest = 0;
 

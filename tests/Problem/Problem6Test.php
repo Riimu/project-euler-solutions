@@ -19,4 +19,10 @@ class Problem6Test extends TestCase
         $solver = new Problem6();
         self::assertSame('25164150', $solver->solve());
     }
+
+    public function testExampleSolution(): void
+    {
+        $solver = new Problem6();
+        self::assertSame(2640, $solver->getSumSquareAndSquareSumDifference(10));
+    }
 }

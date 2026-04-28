@@ -19,4 +19,10 @@ class Problem4Test extends TestCase
         $solver = new Problem4();
         self::assertSame('906609', $solver->solve());
     }
+
+    public function testExampleSolution(): void
+    {
+        $solver = new Problem4();
+        self::assertSame(9009, $solver->getLargestPalindromeOfProduct(10, 99));
+    }
 }

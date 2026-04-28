@@ -13,7 +13,7 @@ use Riimu\EulerSolver\EulerProblem;
  */
 class Problem8 implements EulerProblem
 {
-    private const string DIGITS = <<<'DIGITS'
+    public const string DIGITS = <<<'DIGITS'
         7316717653133062491922511967442657474235534919493496983520312774506326239578318016984801869478851843
         8586156078911294949545950173795833195285320880551112540698747158523863050715693290963295227443043557
         6689664895044524452316173185640309871112172238311362229893423380308135336276614282806444486645238749
@@ -34,7 +34,7 @@ class Problem8 implements EulerProblem
         );
     }
 
-    private function findLargestProductInNumber(string $number, int $count): int
+    public function findLargestProductInNumber(string $number, int $count): int
     {
         $maxProduct = 0;
         $length = \strlen($number);

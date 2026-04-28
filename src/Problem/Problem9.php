@@ -16,7 +16,7 @@ class Problem9 implements EulerProblem
 {
     public function solve(): string
     {
-        return (string) array_product(array_first($this->findPythagoreanTriplets(1000)));
+        return (string) array_product($this->findPythagoreanTriplets(1000));
     }
 
     /**
@@ -28,8 +28,6 @@ class Problem9 implements EulerProblem
         if ($sum % 2 !== 0) {
             return [];
         }
-
-        $triplets = [];
 
         // Solve via a + b + c = 2 * m * (m + n) * d
         $half = $sum / 2;
@@ -55,13 +53,13 @@ class Problem9 implements EulerProblem
                     $a = $d * ($m * $m - $n * $n);
                     $b = 2 * $d * $m * $n;
                     $c = $d * ($m * $m + $n * $n);
-                    $triplets[] = [$a, $b, $c];
+                    return [$a, $b, $c];
                 }
 
                 $k += 2;
             }
         }
 
-        return $triplets;
+        return [];
     }
 }
