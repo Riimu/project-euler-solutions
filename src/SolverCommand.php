@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver;
 
 use Riimu\EulerSolver\Problem\Problem1;
+use Riimu\EulerSolver\Problem\Problem10;
 use Riimu\EulerSolver\Problem\Problem2;
 use Riimu\EulerSolver\Problem\Problem3;
 use Riimu\EulerSolver\Problem\Problem4;
@@ -37,6 +38,7 @@ class SolverCommand extends Command
         'Problem7' => Problem7::class,
         'Problem8' => Problem8::class,
         'Problem9' => Problem9::class,
+        'Problem10' => Problem10::class,
     ];
 
     protected function configure(): void
