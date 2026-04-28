@@ -12,9 +12,9 @@ namespace Riimu\EulerSolver\Library;
 class PrimeMath
 {
     /** @var list<int> */
-    private static array $primes = [2, 3];
+    private static array $primes = [2, 3, 5, 7];
 
-    private static int $primeCandidate = 5;
+    private static int $bound = 8;
 
     /**
      * @return \Generator<int, int>
@@ -53,23 +53,30 @@ class PrimeMath
 
     private static function findMorePrimes(): void
     {
-        $primeFound = false;
+        $lowerBound = self::$bound;
+        $upperBound = self::$bound * 2;
 
-        do {
-            foreach ([self::$primeCandidate, self::$primeCandidate + 2] as $candidate) {
-                $maxFactor = (int) sqrt($candidate);
+        $limit = intdiv($upperBound - $lowerBound, 2);
+        $sieve = array_fill(0, $limit, true);
+        $maxFactor = (int) sqrt($upperBound);
+        $index = 2;
 
-                for ($i = 1; self::$primes[$i] <= $maxFactor; $i++) {
-                    if ($candidate % self::$primes[$i] === 0) {
-                        continue 2;
-                    }
-                }
+        for ($prime = 3; $prime <= $maxFactor; $prime = self::$primes[$index++]) {
+            $count = intdiv($lowerBound, $prime);
+            $count += $count % 2 === 0 ? 1 : 2;
+            $start = intdiv($prime * max($count, $prime) - $lowerBound, 2);
 
-                $primeFound = true;
-                self::$primes[] = $candidate;
+            for ($j = $start; $j < $limit; $j += $prime) {
+                $sieve[$j] = false;
             }
+        }
 
-            self::$primeCandidate += 6;
-        } while (!$primeFound);
+        self::$bound = $upperBound;
+
+        foreach ($sieve as $number => $isPrime) {
+            if ($isPrime) {
+                self::$primes[] = $number * 2 + 1 + $lowerBound;
+            }
+        }
     }
 }
