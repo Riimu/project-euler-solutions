@@ -38,7 +38,7 @@ class PrimeMath
 
         return array_any(
             self::getPrimesUpTo((int) sqrt($number)),
-            static fn (int $prime): bool => $number % $prime === 0
+            static fn(int $prime): bool => $number % $prime === 0,
         ) === false;
     }
 
@@ -67,28 +67,31 @@ class PrimeMath
         return self::$primes[$index] === $prime ? $index + 1 : 0;
     }
 
-    private static function findPrimeAt(int $number): int
+    private static function findPrimeAt(int $target): int
     {
-        while ($number > self::$bound) {
+        while ($target > self::$bound) {
             self::findMorePrimes();
         }
 
+        $count = \count(self::$primes);
         $left = 0;
-        $right = \count(self::$primes) - 1;
+        $right = $count;
 
-        while ($left <= $right) {
+        while ($left < $right) {
             $mid = $left + intdiv($right - $left, 2);
 
-            if (self::$primes[$mid] < $number) {
+            if (self::$primes[$mid] < $target) {
                 $left = $mid + 1;
-            } elseif (self::$primes[$mid] > $number) {
-                $right = $mid - 1;
             } else {
-                return $mid;
+                $right = $mid;
             }
         }
 
-        return $right;
+        if ($left === $count || self::$primes[$left] > $target) {
+            $left--;
+        }
+
+        return $left;
     }
 
     private static function findMorePrimes(): void
