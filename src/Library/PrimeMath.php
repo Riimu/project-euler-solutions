@@ -32,23 +32,63 @@ class PrimeMath
 
     public static function isPrime(int $number): bool
     {
-        if ($number <= array_last(self::$primes)) {
-            return \in_array($number, self::$primes, true);
+        if ($number <= self::$bound) {
+            return self::$primes[self::findPrimeAt($number)] === $number;
         }
 
-        $maxFactor = (int) sqrt($number);
+        return array_any(
+            self::getPrimesUpTo((int) sqrt($number)),
+            static fn (int $prime): bool => $number % $prime === 0
+        ) === false;
+    }
 
-        foreach (self::iteratePrimes() as $prime) {
-            if ($prime > $maxFactor) {
-                break;
-            }
+    /**
+     * @param int $limit
+     * @return list<int>
+     */
+    public static function getPrimesUpTo(int $limit): array
+    {
+        $count = self::findPrimeAt($limit) + 1;
+        return \array_slice(self::$primes, 0, $count);
+    }
 
-            if ($number % $prime === 0) {
-                return false;
+    public static function findNthPrime(int $ordinality): int
+    {
+        while (\count(self::$primes) < $ordinality) {
+            self::findMorePrimes();
+        }
+
+        return self::$primes[$ordinality - 1];
+    }
+
+    public static function findPrimeOrdinality(int $prime): int
+    {
+        $index = self::findPrimeAt($prime);
+        return self::$primes[$index] === $prime ? $index + 1 : 0;
+    }
+
+    private static function findPrimeAt(int $number): int
+    {
+        while ($number > self::$bound) {
+            self::findMorePrimes();
+        }
+
+        $left = 0;
+        $right = \count(self::$primes) - 1;
+
+        while ($left <= $right) {
+            $mid = $left + intdiv($right - $left, 2);
+
+            if (self::$primes[$mid] < $number) {
+                $left = $mid + 1;
+            } elseif (self::$primes[$mid] > $number) {
+                $right = $mid - 1;
+            } else {
+                return $mid;
             }
         }
 
-        return true;
+        return $right;
     }
 
     private static function findMorePrimes(): void

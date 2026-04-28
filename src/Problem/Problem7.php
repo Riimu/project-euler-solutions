@@ -21,17 +21,6 @@ class Problem7 implements EulerProblem
 
     public function getNthPrime(int $number): int
     {
-        $count = 1;
-        $prime = 2;
-
-        foreach (PrimeMath::iteratePrimes() as $prime) {
-            if ($count === $number) {
-                break;
-            }
-
-            $count++;
-        }
-
-        return $prime;
+        return PrimeMath::findNthPrime($number);
     }
 }
