@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
+use Riimu\EulerSolver\Library\BasicMath;
 
 /**
  * @author Riikka Kalliomäki <riikka.kalliomaki@gmail.com>
@@ -30,7 +31,6 @@ class Problem1 implements EulerProblem
 
     private function sumDivisibleBy(int $divisor, int $max): int
     {
-        $count = intdiv($max, $divisor);
-        return intdiv($divisor * ($count * ($count + 1)), 2);
+        return $divisor *  BasicMath::getIntegerSum(intdiv($max, $divisor));
     }
 }

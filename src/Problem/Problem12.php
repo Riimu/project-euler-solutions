@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
+use Riimu\EulerSolver\Library\BasicMath;
 use Riimu\EulerSolver\Library\FactoringMath;
 
 /**
@@ -16,22 +17,29 @@ class Problem12 implements EulerProblem
 {
     public function solve(): string
     {
-        $triangle = 0;
-        $add = 1;
+        return (string) $this->findTriangleWithDivisorCountAbove(500);
+    }
 
-        while (true) {
-            $triangle += $add++;
-            $divisible = [];
+    public function findTriangleWithDivisorCountAbove(int $count): int
+    {
+        $n = 3;
+        $nextDivisors = $this->countDivisors(($n + 1) / 2);
 
-            for ($i = 1; $i <= $triangle; $i++) {
-                if ($triangle % $i === 0) {
-                    $divisible[] = $i;
-                }
-            }
+        do {
+            $n++;
+            $divisors = $nextDivisors;
+            $nextDivisors = $this->countDivisors($n % 2 === 0 ? $n + 1 : ($n + 1) / 2);
+        } while ($divisors * $nextDivisors <= $count);
 
-            if (\count($divisible) > 500) {
-                return (string) $triangle;
-            }
-        }
+        return BasicMath::getIntegerSum($n);
+    }
+
+    private function countDivisors(int $number): int
+    {
+        return array_reduce(
+            FactoringMath::countFactors($number),
+            static fn(int $carry, int $x): int => $carry * ($x + 1),
+            1,
+        );
     }
 }

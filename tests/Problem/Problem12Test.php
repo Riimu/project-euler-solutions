@@ -14,9 +14,15 @@ use Riimu\EulerSolver\Problem\Problem12;
  */
 class Problem12Test extends TestCase
 {
-    public function testProblem2Solution(): void
+    public function testProblemSolution(): void
     {
         $solver = new Problem12();
         self::assertSame('76576500', $solver->solve());
+    }
+
+    public function testExampleSolution(): void
+    {
+        $solver = new Problem12();
+        self::assertSame(28, $solver->findTriangleWithDivisorCountAbove(5));
     }
 }

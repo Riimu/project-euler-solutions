@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
+use Riimu\EulerSolver\Library\BasicMath;
 
 /**
  * @author Riikka Kalliomäki <riikka.kalliomaki@gmail.com>
@@ -21,7 +22,7 @@ class Problem6 implements EulerProblem
     public function getSumSquareAndSquareSumDifference(int $limit): int
     {
         $sumOfSquares = (2 * $limit + 1) * ($limit + 1) * $limit / 6;
-        $squareOfSum = ($limit * ($limit + 1) / 2) ** 2;
+        $squareOfSum = BasicMath::getIntegerSum($limit) ** 2;
 
         return $squareOfSum - $sumOfSquares;
     }

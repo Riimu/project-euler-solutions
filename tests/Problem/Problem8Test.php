@@ -14,7 +14,7 @@ use Riimu\EulerSolver\Problem\Problem8;
  */
 class Problem8Test extends TestCase
 {
-    public function testProblem2Solution(): void
+    public function testProblemSolution(): void
     {
         $solver = new Problem8();
         self::assertSame('23514624000', $solver->solve());
