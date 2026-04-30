@@ -81,10 +81,8 @@ class FactoringMath
      */
     private static function iterateFactors(int $number): \Generator
     {
-        $maxFactor = (int) sqrt($number);
-
         foreach (PrimeMath::iteratePrimes() as $prime) {
-            if ($prime > $maxFactor) {
+            if ($prime ** 2 > $number) {
                 yield $number;
                 break;
             }
@@ -96,8 +94,6 @@ class FactoringMath
                 if ($number === 1) {
                     break 2;
                 }
-
-                $maxFactor = (int) sqrt($number);
             }
         }
     }
