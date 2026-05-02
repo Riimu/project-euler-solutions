@@ -25,12 +25,12 @@ class Problem9 implements EulerProblem
      */
     public function findPythagoreanTriplets(int $sum): array
     {
-        if ($sum % 2 !== 0) {
+        if (($sum & 1) !== 0) {
             return [];
         }
 
         // Solve via a + b + c = 2 * m * (m + n) * d
-        $half = $sum / 2;
+        $half = $sum >> 1;
         $max = (int) (ceil(sqrt($half))) - 1;
 
         for ($m = 2; $m <= $max; $m++) {
@@ -40,11 +40,11 @@ class Problem9 implements EulerProblem
 
             $sm = $half / $m;
 
-            while ($sm % 2 === 0) {
-                $sm /= 2;
+            while (($sm & 1) === 0) {
+                $sm >>= 1;
             }
 
-            $k = $m % 2 === 1 ? $m + 2 : $m + 1;
+            $k = ($m & 1) === 1 ? $m + 2 : $m + 1;
 
             while ($k < 2 * $m && $k <= $sm) {
                 if ($sm % $k === 0 && FactoringMath::getGreatestCommonDivisor($k, $m) === 1) {

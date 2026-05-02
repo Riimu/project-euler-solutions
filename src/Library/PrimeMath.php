@@ -78,7 +78,7 @@ class PrimeMath
         $right = $count;
 
         while ($left < $right) {
-            $mid = $left + intdiv($right - $left, 2);
+            $mid = $left + ($right - $left >> 1);
 
             if (self::$primes[$mid] < $target) {
                 $left = $mid + 1;
@@ -97,17 +97,17 @@ class PrimeMath
     private static function findMorePrimes(): void
     {
         $lowerBound = self::$bound;
-        $upperBound = self::$bound * 2;
+        $upperBound = self::$bound << 1;
 
-        $limit = intdiv($upperBound - $lowerBound, 2);
+        $limit = $upperBound - $lowerBound >> 1;
         $sieve = array_fill(0, $limit, true);
         $maxFactor = (int) sqrt($upperBound);
         $index = 2;
 
         for ($prime = 3; $prime <= $maxFactor; $prime = self::$primes[$index++]) {
             $count = intdiv($lowerBound, $prime);
-            $count += $count % 2 === 0 ? 1 : 2;
-            $start = intdiv($prime * max($count, $prime) - $lowerBound, 2);
+            $count += ($count & 1) === 0 ? 1 : 2;
+            $start = $prime * max($count, $prime) - $lowerBound >> 1;
 
             for ($j = $start; $j < $limit; $j += $prime) {
                 $sieve[$j] = false;
@@ -118,7 +118,7 @@ class PrimeMath
 
         foreach ($sieve as $number => $isPrime) {
             if ($isPrime) {
-                self::$primes[] = $number * 2 + 1 + $lowerBound;
+                self::$primes[] = ($number << 1) + 1 + $lowerBound;
             }
         }
     }

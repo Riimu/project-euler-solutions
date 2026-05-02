@@ -13,6 +13,6 @@ class BasicMath
 {
     public static function getIntegerSum(int $limit): int
     {
-        return $limit * ($limit + 1) / 2;
+        return $limit * ($limit + 1) >> 1;
     }
 }

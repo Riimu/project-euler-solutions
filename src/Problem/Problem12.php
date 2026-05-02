@@ -23,12 +23,12 @@ class Problem12 implements EulerProblem
     public function findTriangleWithDivisorCountAbove(int $count): int
     {
         $n = 3;
-        $nextDivisors = $this->countDivisors(($n + 1) / 2);
+        $nextDivisors = $this->countDivisors(($n + 1) >> 1);
 
         do {
             $n++;
             $divisors = $nextDivisors;
-            $nextDivisors = $this->countDivisors($n % 2 === 0 ? $n + 1 : ($n + 1) / 2);
+            $nextDivisors = $this->countDivisors(($n & 1) === 0 ? $n + 1 : ($n + 1) >> 1);
         } while ($divisors * $nextDivisors <= $count);
 
         return BasicMath::getIntegerSum($n);
