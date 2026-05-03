@@ -31,8 +31,13 @@ class Problem14 implements EulerProblem
             $next = $start;
 
             do {
-                $next = ($next & 1) === 0 ? $next >> 1 : $next + ($next << 1) + 1;
                 $length++;
+
+                if ($next & 1) {
+                    $next += ($next << 1) + 1;
+                } else {
+                    $next >>= 1;
+                }
             } while ($next > $start);
 
             $length += $sequences[$next];
