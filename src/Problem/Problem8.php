@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
+use Riimu\EulerSolver\Library\StringLib;
 
 /**
  * @author Riikka Kalliomäki <riikka.kalliomaki@gmail.com>
@@ -29,7 +30,7 @@ class Problem8 implements EulerProblem
     public function solve(): string
     {
         return (string) $this->findLargestProductInNumber(
-            preg_replace('/\s+/', '', self::DIGITS),
+            StringLib::replace('/\s+/', '', self::DIGITS),
             13,
         );
     }
@@ -51,7 +52,7 @@ class Problem8 implements EulerProblem
             $digits[] = $next;
 
             if (\count($digits) === $count) {
-                $maxProduct = max(array_product($digits), $maxProduct);
+                $maxProduct = max((int) array_product($digits), $maxProduct);
                 array_shift($digits);
             }
         }

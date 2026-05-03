@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
+use Riimu\EulerSolver\Library\StringLib;
 
 /**
  * @author Riikka Kalliomäki <riikka.kalliomaki@gmail.com>
@@ -118,10 +119,15 @@ class Problem13 implements EulerProblem
 
     public function solve(): string
     {
-        $numbers = preg_split('/[\r\n\s]+/', trim(self::NUMBERS));
+        $numbers = StringLib::split('/[\r\n\s]+/', trim(self::NUMBERS));
         return $this->getFirstDigitsFromSum(10, $numbers);
     }
 
+    /**
+     * @param int $digits
+     * @param list<string> $numbers
+     * @return string
+     */
     public function getFirstDigitsFromSum(int $digits, array $numbers): string
     {
         $sum = array_reduce(

@@ -23,7 +23,7 @@ class Problem15 implements EulerProblem
         $result = 1;
 
         for ($i = 1; $i <= $size; $i++) {
-            $result = $result * ($size + $i) / $i;
+            $result = intdiv($result * ($size + $i), $i);
         }
 
         return $result;

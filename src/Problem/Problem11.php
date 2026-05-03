@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
+use Riimu\EulerSolver\Library\StringLib;
 
 /**
  * @author Riikka Kalliomäki <riikka.kalliomaki@gmail.com>
@@ -53,11 +54,11 @@ class Problem11 implements EulerProblem
      */
     public function getGrid(): array
     {
-        $lines = preg_split('/[\r\n]+/', trim(self::GRID));
+        $lines = StringLib::split('/[\r\n]+/', trim(self::GRID));
         $grid = [];
 
         foreach ($lines as $line) {
-            $cells = preg_split('/\s+/', trim($line));
+            $cells = StringLib::split('/\s+/', trim($line));
             $gridLine = [];
 
             foreach ($cells as $cell) {

@@ -33,6 +33,11 @@ class SolverCommand extends Command
         }
 
         $problemName = $input->getArgument('problem');
+
+        if (!\is_string($problemName)) {
+            throw new \RuntimeException('Unexpected type for problem name');
+        }
+
         $problemSolvers = $this->getProblemSolvers();
 
         if (!isset($problemSolvers[$problemName])) {
@@ -65,7 +70,7 @@ class SolverCommand extends Command
             $name = $file->getBasename('.php');
             $class = 'Riimu\\EulerSolver\\Problem\\' . $name;
 
-            if (class_exists($class)) {
+            if (is_a($class, EulerProblem::class, true)) {
                 $problems[$name] = $class;
             }
         }

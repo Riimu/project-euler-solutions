@@ -21,12 +21,12 @@ class Problem9 implements EulerProblem
 
     /**
      * @param int $sum
-     * @return list<list<int>>
+     * @return array{int, int, int}
      */
     public function findPythagoreanTriplets(int $sum): array
     {
         if (($sum & 1) !== 0) {
-            return [];
+            return [-1, -1, -1];
         }
 
         // Solve via a + b + c = 2 * m * (m + n) * d
@@ -60,6 +60,6 @@ class Problem9 implements EulerProblem
             }
         }
 
-        return [];
+        return [-1, -1, -1];
     }
 }

@@ -40,7 +40,7 @@ class FactoringMath
             }
         }
 
-        return array_product($commonFactors);
+        return (int) array_product($commonFactors);
     }
 
     /**
@@ -62,7 +62,7 @@ class FactoringMath
 
     /**
      * @param int $number
-     * @return list<int>
+     * @return non-empty-list<int>
      */
     public static function getFactors(int $number): array
     {
@@ -72,12 +72,16 @@ class FactoringMath
             $factors[] = $factor;
         }
 
+        if ($factors === []) {
+            throw new \UnexpectedValueException('List of factors should never be empty');
+        }
+
         return $factors;
     }
 
     /**
      * @param int $number
-     * @return \Generator<int, int>
+     * @return \Generator<int>
      */
     private static function iterateFactors(int $number): \Generator
     {
@@ -89,7 +93,7 @@ class FactoringMath
 
             while ($number % $prime === 0) {
                 yield $prime;
-                $number /= $prime;
+                $number = (int) ($number / $prime);
 
                 if ($number === 1) {
                     break 2;
