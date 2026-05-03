@@ -49,13 +49,32 @@ class SolverCommand extends Command
         $solver = new $solverClass();
 
         $timer = new RunTimer();
+        memory_reset_peak_usage();
+        $initial = memory_get_peak_usage();
         $solution = $solver->solve();
+        $memory = $this->formatMemoryString(memory_get_peak_usage() - $initial);
         $milliseconds = $timer->getMilliseconds();
 
-        $output->writeln(\sprintf('Solution for the solver "%s" solved in %d ms', $problemName, $milliseconds));
+        $output->writeln(\sprintf(
+            'Solution for the solver "%s" solved in %d ms (%s memory)',
+            $problemName,
+            $milliseconds,
+            $memory,
+        ));
         $output->writeln($solution);
 
         return Command::SUCCESS;
+    }
+
+    private function formatMemoryString(int $bytes): string
+    {
+        if ($bytes < 1000) {
+            return "$bytes B";
+        }
+
+        $suffixes = ['B', 'KiB', 'MiB', 'GiB', 'TiB'];
+        $log = (int) log($bytes, 1024);
+        return number_format($bytes / 1024 ** $log, 2) . ' ' . $suffixes[$log];
     }
 
     /**
