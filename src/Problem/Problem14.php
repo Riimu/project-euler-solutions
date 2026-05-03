@@ -20,28 +20,27 @@ class Problem14 implements EulerProblem
 
     public function findLongestCollatzChain(int $limit): int
     {
-        $sequences = [1 => 1];
+        $sequences = array_fill(0, $limit, 0);
+        $sequences[1] = 1;
+
         $resultKey = 0;
         $maxLength = 0;
 
-        for ($i = $limit >> 1; $i < $limit; $i++) {
-            $sequence = [];
-            $next = $i;
+        for ($start = 2; $start < $limit; $start++) {
+            $length = 0;
+            $next = $start;
 
             do {
-                $sequence[] = $next;
                 $next = ($next & 1) === 0 ? $next >> 1 : $next + ($next << 1) + 1;
-            } while (!\array_key_exists($next, $sequences));
+                $length++;
+            } while ($next > $start);
 
-            $length = $sequences[$next] + \count($sequence);
-
-            foreach ($sequence as $position => $number) {
-                $sequences[$number] = $length - $position;
-            }
+            $length += $sequences[$next];
+            $sequences[$start] = $length;
 
             if ($length > $maxLength) {
                 $maxLength = $length;
-                $resultKey = $i;
+                $resultKey = $start;
             }
         }
 
