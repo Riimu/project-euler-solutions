@@ -15,23 +15,17 @@ class Problem15 implements EulerProblem
 {
     public function solve(): string
     {
-        return (string) $this->countGridPaths(20, 20);
+        return (string) $this->countGridPaths(20);
     }
 
-    public function countGridPaths(int $width, int $height): int
+    public function countGridPaths(int $size): int
     {
-        $maxX = $width - 1;
-        $maxY = $height - 1;
-        $paths = array_fill(0, $height, array_fill(0, $width, -1));
+        $result = 1;
 
-        for ($y = $maxY; $y >= 0; $y--) {
-            for ($x = $maxX; $x >= 0; $x--) {
-                $paths[$y][$x] =
-                    ($x === $maxX ? 1 : $paths[$y][$x + 1]) +
-                    ($y === $maxY ? 1 : $paths[$y + 1][$x]);
-            }
+        for ($i = 1; $i <= $size; $i++) {
+            $result = $result * ($size + $i) / $i;
         }
 
-        return $paths[0][0];
+        return $result;
     }
 }

@@ -23,6 +23,6 @@ class Problem15Test extends TestCase
     public function testExampleSolution(): void
     {
         $solver = new Problem15();
-        self::assertSame(6, $solver->countGridPaths(2, 2));
+        self::assertSame(6, $solver->countGridPaths(2));
     }
 }
