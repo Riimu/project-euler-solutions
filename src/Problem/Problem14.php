@@ -15,11 +15,16 @@ class Problem14 implements EulerProblem
 {
     public function solve(): string
     {
+        return (string) $this->findLongestCollatzChain(1_000_000);
+    }
+
+    public function findLongestCollatzChain(int $limit): int
+    {
         $sequences = [1 => 1];
         $resultKey = 0;
         $maxLength = 0;
 
-        for ($i = 500_000; $i < 1_000_000; $i++) {
+        for ($i = $limit >> 1; $i < $limit; $i++) {
             $sequence = [];
             $next = $i;
 
@@ -40,6 +45,6 @@ class Problem14 implements EulerProblem
             }
         }
 
-        return (string) $resultKey;
+        return $resultKey;
     }
 }

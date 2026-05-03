@@ -118,13 +118,18 @@ class Problem13 implements EulerProblem
 
     public function solve(): string
     {
-        $numbers = preg_split('/[\r\n]+/', trim(self::NUMBERS));
-        $sum = gmp_init('0');
+        $numbers = preg_split('/[\r\n\s]+/', trim(self::NUMBERS));
+        return $this->getFirstDigitsFromSum(10, $numbers);
+    }
 
-        foreach ($numbers as $number) {
-            $sum = gmp_add($sum, gmp_init($number));
-        }
+    public function getFirstDigitsFromSum(int $digits, array $numbers): string
+    {
+        $sum = array_reduce(
+            $numbers,
+            static fn(\GMP $carry, string $number): \GMP => gmp_add($carry, gmp_init($number)),
+            gmp_init(0),
+        );
 
-        return substr(gmp_strval($sum), 0, 10);
+        return substr(gmp_strval($sum), 0, $digits);
     }
 }
