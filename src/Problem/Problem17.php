@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
+use Riimu\EulerSolver\Library\StringLib;
 
 /**
  * @author Riikka Kalliomäki <riikka.kalliomaki@gmail.com>
@@ -13,6 +14,33 @@ use Riimu\EulerSolver\EulerProblem;
  */
 class Problem17 implements EulerProblem
 {
+    private const string WORD_HUNDRED = 'hundred';
+    private const string WORD_AND = 'and';
+    private const array WORD_SCALES = ['', 'thousand', 'million', 'billion', 'trillion', 'quadrillion'];
+    private const array WORD_TENS = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
+    private const array WORD_ONES = [
+        'zero',
+        'one',
+        'two',
+        'three',
+        'four',
+        'five',
+        'six',
+        'seven',
+        'eight',
+        'nine',
+        'ten',
+        'eleven',
+        'twelve',
+        'thirteen',
+        'fourteen',
+        'fifteen',
+        'sixteen',
+        'seventeen',
+        'eighteen',
+        'nineteen',
+    ];
+
     public function solve(): string
     {
         return (string) $this->sumNumberWordsLengthsUpTo(1000);
@@ -24,26 +52,18 @@ class Problem17 implements EulerProblem
 
         for ($i = 1; $i <= $limit; $i++) {
             $word = $this->getNumberWord($i);
-            $word = preg_replace('/[- ]/', '', $word);
+            $word = StringLib::replace('/[- ]/', '', $word);
             $sum += \strlen($word);
         }
 
         return $sum;
     }
 
-
     public function getNumberWord(int $number): string
     {
         if ($number === 0) {
-            return 'zero';
+            return self::WORD_ONES[0];
         }
-
-        $scales = ['thousand', 'million', 'billion', 'trillion', 'quadrillion'];
-        $hundred = 'hundred';
-        $and = 'and';
-        $tens = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'];
-        $teens = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'];
-        $ones = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
 
         $words = [];
 
@@ -55,28 +75,30 @@ class Problem17 implements EulerProblem
             $section %= 100;
 
             if ($i > 0) {
-                $words[] = $scales[$i - 1];
+                $words[] = self::WORD_SCALES[$i];
             }
 
             if ($section > 0) {
-                if ($section < 10) {
-                    $words[] = $ones[$section - 1];
-                } elseif ($section < 20) {
-                    $words[] = $teens[$section - 10];
+                if ($section < 20) {
+                    $words[] = self::WORD_ONES[$section];
+                } elseif ($section % 10 === 0) {
+                    $words[] = self::WORD_TENS[intdiv($section, 10)];
                 } else {
-                    $words[] = $section % 10 === 0
-                        ? $tens[intdiv($section, 10) - 2]
-                        : \sprintf('%s-%s', $tens[intdiv($section, 10) - 2], $ones[$section % 10 - 1]);
+                    $words[] = \sprintf(
+                        '%s-%s',
+                        self::WORD_TENS[intdiv($section, 10)],
+                        self::WORD_ONES[$section % 10],
+                    );
                 }
             }
 
             if ($hundreds > 0) {
                 if ($section > 0) {
-                    $words[] = $and;
+                    $words[] = self::WORD_AND;
                 }
 
-                $words[] = $hundred;
-                $words[] = $ones[$hundreds - 1];
+                $words[] = self::WORD_HUNDRED;
+                $words[] = self::WORD_ONES[$hundreds];
             }
         }
 
