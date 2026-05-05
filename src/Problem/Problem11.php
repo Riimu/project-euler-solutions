@@ -46,29 +46,12 @@ class Problem11 implements EulerProblem
 
     public function solve(): string
     {
-        return (string) $this->findLargestProductInGrid($this->getGrid(), 4);
-    }
+        $grid = array_map(
+            StringLib::parseIntegers(...),
+            StringLib::parseLines(self::GRID),
+        );
 
-    /**
-     * @return list<list<int>>
-     */
-    public function getGrid(): array
-    {
-        $lines = StringLib::split('/[\r\n]+/', trim(self::GRID));
-        $grid = [];
-
-        foreach ($lines as $line) {
-            $cells = StringLib::split('/\s+/', trim($line));
-            $gridLine = [];
-
-            foreach ($cells as $cell) {
-                $gridLine[] = (int) ltrim($cell, '0');
-            }
-
-            $grid[] = $gridLine;
-        }
-
-        return $grid;
+        return (string) $this->findLargestProductInGrid($grid, 4);
     }
 
     /**

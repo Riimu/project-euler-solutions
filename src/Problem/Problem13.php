@@ -119,7 +119,7 @@ class Problem13 implements EulerProblem
 
     public function solve(): string
     {
-        $numbers = StringLib::split('/[\r\n\s]+/', trim(self::NUMBERS));
+        $numbers = StringLib::parseLines(self::NUMBERS);
         return $this->getFirstDigitsFromSum(10, $numbers);
     }
 

@@ -21,7 +21,7 @@
     },
     "scripts": {
         "analyse": "phpstan analyse",
-        "fix": "php-cs-fixer fix",
+        "fix": "php-cs-fixer fix --verbose --diff",
         "test": "phpunit"
     }
 }
