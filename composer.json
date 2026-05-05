@@ -1,5 +1,6 @@
 {
     "require": {
+        "php": ">=8.5",
         "ext-gmp": "*",
         "symfony/console": "^8.0",
         "symfony/finder": "^8.0"
