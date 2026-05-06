@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
-use Riimu\EulerSolver\Library\PrimeMath;
+use Riimu\EulerSolver\Library\FactoringMath;
 
 /**
  * @author Riikka Kalliomäki <riikka.kalliomaki@gmail.com>
@@ -21,35 +21,35 @@ class Problem21 implements EulerProblem
 
     public function getSumOfAmicableNumbersBelow(int $limit): int
     {
-        $sums = array_fill(0, $limit, 0);
+        $sums = [];
         $total = 0;
 
         for ($a = 2; $a < $limit; $a++) {
-            if ($sums[$a] !== 0) {
+            if (\array_key_exists($a, $sums)) {
                 continue;
             }
 
             $b = $this->getSumOfProperDivisors($a);
 
-            if ($b >= $limit) {
+            if ($b <= $a) {
                 continue;
             }
 
             $sums[$a] = $b;
 
-            if ($a === $b) {
-                continue;
-            }
-
-            if ($sums[$b] === 0) {
+            if (\array_key_exists($b, $sums)) {
+                $bSum = $sums[$b];
+            } else {
                 $bSum = $this->getSumOfProperDivisors($b);
                 $sums[$b] = $bSum;
-            } else {
-                $bSum = $sums[$b];
             }
 
             if ($a === $bSum) {
-                $total += $a + $b;
+                $total += $a;
+
+                if ($b < $limit) {
+                    $total += $b;
+                }
             }
         }
 
@@ -58,24 +58,12 @@ class Problem21 implements EulerProblem
 
     public function getSumOfProperDivisors(int $number): int
     {
-        return array_sum($this->getProperDivisors($number));
-    }
+        $sum = 1;
 
-    public function getProperDivisors(int $number): array
-    {
-        $maxDivisor = (int) sqrt($number);
-        $ascending = [1];
-        $descending = [];
-
-        for ($i = 2; $i <= $maxDivisor; $i++) {
-            if ($number % $i === 0) {
-                $ascending[] = $i;
-                array_unshift($descending, intdiv($number, $i));
-            }
+        foreach (FactoringMath::countFactors($number) as $prime => $count) {
+            $sum *= intdiv($prime ** ($count + 1) - 1, $prime - 1);
         }
 
-        array_push($ascending, ... $descending);
-
-        return $ascending;
+        return $sum - $number;
     }
 }

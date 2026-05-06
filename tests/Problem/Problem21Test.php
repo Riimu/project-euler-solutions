@@ -20,21 +20,6 @@ class Problem21Test extends TestCase
         self::assertSame('31626', $solver->solve());
     }
 
-    public function testGetProperDivisors(): void
-    {
-        $solver = new Problem21();
-
-        self::assertSame(
-            [1, 2, 4, 5, 10, 11, 20, 22, 44, 55, 110],
-            $solver->getProperDivisors(220)
-        );
-
-        self::assertSame(
-            [1, 2, 4, 71, 142],
-            $solver->getProperDivisors(284)
-        );
-    }
-
     public function testGetSumOfProperDivisors(): void
     {
         $solver = new Problem21();
