@@ -23,6 +23,6 @@ class Problem5Test extends TestCase
     public function testExampleSolution(): void
     {
         $solver = new Problem5();
-        self::assertSame(2520, $solver->getSmallestDivisible(range(1, 10)));
+        self::assertSame(2520, $solver->getSmallestDivisible(range(2, 10)));
     }
 }

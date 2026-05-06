@@ -13,69 +13,95 @@ class PrimeMath
 {
     /** @var list<int> */
     private static array $primes = [2, 3, 5, 7];
-
+    private static int $count = 4;
     private static int $bound = 8;
 
-    /**
-     * @return \Generator<int, int>
-     */
-    public static function iteratePrimes(): \Generator
+    public static function getGreatestCommonDivisor(int $initial, int ... $compare): int
     {
-        for ($i = 0; true; $i++) {
-            if (!\array_key_exists($i, self::$primes)) {
-                self::findMorePrimes();
+        $commonFactors = self::countFactors($initial);
+
+        foreach ($compare as $number) {
+            $factors = self::countFactors($number);
+            $commonFactors = array_intersect_key($commonFactors, $factors);
+
+            foreach ($commonFactors as $factor => $count) {
+                if ($factors[$factor] < $count) {
+                    $commonFactors[$factor] = $factors[$factor];
+                }
+            }
+        }
+
+        $product = 1;
+
+        foreach ($commonFactors as $factor => $count) {
+            $product *= $factor ** $count;
+        }
+
+        return $product;
+    }
+
+    /**
+     * @param int $number
+     * @return non-empty-array<int, int>
+     */
+    public static function countFactors(int $number): array
+    {
+        $factors = [];
+        $index = 1;
+
+        for ($prime = 2; $prime ** 2 <= $number; $prime = self::$primes[$index++]) {
+            while ($number % $prime === 0) {
+                $factors[$prime] ??= 0;
+                $factors[$prime]++;
+                $number = (int) ($number / $prime);
             }
 
-            yield self::$primes[$i];
-        }
-    }
-
-    public static function isPrime(int $number): bool
-    {
-        if ($number <= self::$bound) {
-            return self::$primes[self::findPrimeAt($number)] === $number;
+            if ($index >= self::$count) {
+                self::findMorePrimes();
+            }
         }
 
-        return array_any(
-            self::getPrimesUpTo((int) sqrt($number)),
-            static fn(int $prime): bool => $number % $prime === 0,
-        ) === false;
+        if ($number > 1) {
+            $factors[$number] = 1;
+        }
+
+        if ($factors === []) {
+            throw new \UnexpectedValueException('List of factors should never be empty');
+        }
+
+        return $factors;
     }
 
     /**
-     * @param int $limit
+     * @param int $count
      * @return list<int>
      */
-    public static function getPrimesUpTo(int $limit): array
+    public static function getPrimes(int $count): array
     {
-        $count = self::findPrimeAt($limit) + 1;
+        while (self::$count < $count) {
+            self::findMorePrimes();
+        }
+
         return \array_slice(self::$primes, 0, $count);
     }
 
-    public static function findNthPrime(int $ordinality): int
+    public static function getPrimeNumber(int $ordinality): int
     {
-        while (\count(self::$primes) < $ordinality) {
+        while (self::$count < $ordinality) {
             self::findMorePrimes();
         }
 
         return self::$primes[$ordinality - 1];
     }
 
-    public static function findPrimeOrdinality(int $prime): int
-    {
-        $index = self::findPrimeAt($prime);
-        return self::$primes[$index] === $prime ? $index + 1 : 0;
-    }
-
-    private static function findPrimeAt(int $target): int
+    public static function findNearestPosition(int $target): int
     {
         while ($target > self::$bound) {
             self::findMorePrimes();
         }
 
-        $count = \count(self::$primes);
         $left = 0;
-        $right = $count;
+        $right = self::$count;
 
         while ($left < $right) {
             $mid = $left + ($right - $left >> 1);
@@ -87,11 +113,11 @@ class PrimeMath
             }
         }
 
-        if ($left === $count || self::$primes[$left] > $target) {
+        if ($left === self::$count || self::$primes[$left] > $target) {
             $left--;
         }
 
-        return $left;
+        return $left + 1;
     }
 
     private static function findMorePrimes(): void
@@ -105,7 +131,7 @@ class PrimeMath
         $index = 2;
 
         for ($prime = 3; $prime <= $maxFactor; $prime = self::$primes[$index++]) {
-            $count = intdiv($lowerBound, $prime);
+            $count = (int) ($lowerBound / $prime);
             $count += ($count & 1) === 0 ? 1 : 2;
             $start = $prime * max($count, $prime) - $lowerBound >> 1;
 
@@ -114,12 +140,13 @@ class PrimeMath
             }
         }
 
-        self::$bound = $upperBound;
+        $newPrimes = array_map(
+            static fn(int $number): int => ($number << 1) + 1 + $lowerBound,
+            array_keys($sieve, true, true),
+        );
 
-        foreach ($sieve as $number => $isPrime) {
-            if ($isPrime) {
-                self::$primes[] = ($number << 1) + 1 + $lowerBound;
-            }
-        }
+        array_push(self::$primes, ... $newPrimes);
+        self::$count = \count(self::$primes);
+        self::$bound = $upperBound;
     }
 }

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
-use Riimu\EulerSolver\Library\FactoringMath;
+use Riimu\EulerSolver\Library\PrimeMath;
 
 /**
  * @author Riikka Kalliomäki <riikka.kalliomaki@gmail.com>
@@ -60,7 +60,7 @@ class Problem21 implements EulerProblem
     {
         $sum = 1;
 
-        foreach (FactoringMath::countFactors($number) as $prime => $count) {
+        foreach (PrimeMath::countFactors($number) as $prime => $count) {
             $sum *= intdiv($prime ** ($count + 1) - 1, $prime - 1);
         }
 

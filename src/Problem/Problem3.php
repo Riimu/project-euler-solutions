@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
-use Riimu\EulerSolver\Library\FactoringMath;
+use Riimu\EulerSolver\Library\PrimeMath;
 
 /**
  * @author Riikka Kalliomäki <riikka.kalliomaki@gmail.com>
@@ -21,6 +21,6 @@ class Problem3 implements EulerProblem
 
     public function getHighestPrimeFactor(int $number): int
     {
-        return array_last(FactoringMath::getFactors($number));
+        return max(array_keys(PrimeMath::countFactors($number)));
     }
 }
