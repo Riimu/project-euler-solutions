@@ -21,12 +21,15 @@ class PrimeMath
         $commonFactors = self::countFactors($initial);
 
         foreach ($compare as $number) {
-            $factors = self::countFactors($number);
-            $commonFactors = array_intersect_key($commonFactors, $factors);
-
             foreach ($commonFactors as $factor => $count) {
-                if ($factors[$factor] < $count) {
-                    $commonFactors[$factor] = $factors[$factor];
+                for ($newCount = 0; $number % $factor === 0; $newCount++) {
+                    $number = (int) ($number / $factor);
+                }
+
+                if ($newCount === 0) {
+                    unset($commonFactors[$factor]);
+                } elseif ($newCount < $count) {
+                    $commonFactors[$factor] = $newCount;
                 }
             }
         }

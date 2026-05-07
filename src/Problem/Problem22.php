@@ -16,7 +16,16 @@ class Problem22 implements EulerProblem
     public function solve(): string
     {
         $file = file_get_contents(self::INPUT_DIR . '/0022_names.txt');
+
+        if (!\is_string($file)) {
+            throw new \UnexpectedValueException('Could not read input file');
+        }
+
         $names = str_getcsv($file, ',', '"', '');
+
+        if (\in_array(null, $names, true)) {
+            throw new \UnexpectedValueException('Invalid input file contents');
+        }
 
         return (string) $this->getTotalNameScore($names);
     }
