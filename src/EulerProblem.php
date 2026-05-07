@@ -11,5 +11,7 @@ namespace Riimu\EulerSolver;
  */
 interface EulerProblem
 {
+    final const string INPUT_DIR = __DIR__ . '/../input';
+
     public function solve(): string;
 }
