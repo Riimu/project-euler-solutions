@@ -18,29 +18,41 @@ class PrimeMath
 
     public static function getGreatestCommonDivisor(int $initial, int ... $compare): int
     {
-        $commonFactors = self::countFactors($initial);
+        foreach ($compare as $b) {
+            $a = $initial;
+            $d = 0;
 
-        foreach ($compare as $number) {
-            foreach ($commonFactors as $factor => $count) {
-                for ($newCount = 0; $number % $factor === 0; $newCount++) {
-                    $number = (int) ($number / $factor);
-                }
+            while (($a & 1) === 0 && ($b & 1) === 0) {
+                $d++;
+                $a >>= 1;
+                $b >>= 1;
+            }
 
-                if ($newCount === 0) {
-                    unset($commonFactors[$factor]);
-                } elseif ($newCount < $count) {
-                    $commonFactors[$factor] = $newCount;
+            while (($a & 1) === 0) {
+                $a >>= 1;
+            }
+            while (($b & 1) === 0) {
+                $b >>= 1;
+            }
+
+            while ($a !== $b) {
+                if ($a > $b) {
+                    $a -= $b;
+                    do {
+                        $a >>= 1;
+                    } while (($a & 1) === 0);
+                } else {
+                    $b -= $a;
+                    do {
+                        $b >>= 1;
+                    } while (($b & 1) === 0);
                 }
             }
+
+            $initial = (int) ($a * 2 ** $d);
         }
 
-        $product = 1;
-
-        foreach ($commonFactors as $factor => $count) {
-            $product *= $factor ** $count;
-        }
-
-        return $product;
+        return $initial;
     }
 
     /**
