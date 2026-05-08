@@ -62,18 +62,28 @@ class PrimeMath
     public static function countFactors(int $number): array
     {
         $factors = [];
-        $index = 1;
 
-        for ($prime = 2; $prime ** 2 <= $number; $prime = self::$primes[$index++]) {
-            while ($number % $prime === 0) {
-                $factors[$prime] ??= 0;
-                $factors[$prime]++;
-                $number = (int) ($number / $prime);
+        foreach ([2, 3, 5] as $divisor) {
+            while ($number % $divisor === 0) {
+                $factors[$divisor] ??= 0;
+                $factors[$divisor]++;
+                $number = (int) ($number / $divisor);
+            }
+        }
+
+        $limit = 1 + (int) sqrt($number);
+        $add = [4, 2, 4, 2, 4, 6, 2, 6];
+        $seq = 7;
+
+        for ($divisor = 7; $divisor < $limit; $divisor += $add[$seq]) {
+            while ($number % $divisor === 0) {
+                $factors[$divisor] ??= 0;
+                $factors[$divisor]++;
+                $number = (int) ($number / $divisor);
+                $limit = 1 + (int) sqrt($number);
             }
 
-            if ($index >= self::$count) {
-                self::findMorePrimes();
-            }
+            $seq = ($seq + 1) & 7;
         }
 
         if ($number > 1) {
@@ -81,7 +91,7 @@ class PrimeMath
         }
 
         if ($factors === []) {
-            throw new \UnexpectedValueException('List of factors should never be empty');
+            throw new \UnexpectedValueException('Unexpected empty list of prime factors');
         }
 
         return $factors;
