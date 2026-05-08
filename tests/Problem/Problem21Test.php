@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Test\Problem;
 
 use PHPUnit\Framework\TestCase;
+use Riimu\EulerSolver\Library\DivisorMath;
 use Riimu\EulerSolver\Problem\Problem21;
 
 /**
@@ -23,7 +24,7 @@ class Problem21Test extends TestCase
     public function testGetSumOfProperDivisors(): void
     {
         $solver = new Problem21();
-        self::assertSame(284, $solver->getSumOfProperDivisors(220));
-        self::assertSame(220, $solver->getSumOfProperDivisors(284));
+        self::assertSame(284, DivisorMath::getSumOfProperDivisors(220));
+        self::assertSame(220, DivisorMath::getSumOfProperDivisors(284));
     }
 }

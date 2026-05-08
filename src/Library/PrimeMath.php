@@ -150,17 +150,17 @@ class PrimeMath
             $count += ($count & 1) === 0 ? 1 : 2;
             $start = $prime * max($count, $prime) - $lowerBound >> 1;
 
-            for ($j = $start; $j < $limit; $j += $prime) {
-                $sieve[$j] = false;
+            for ($i = $start; $i < $limit; $i += $prime) {
+                $sieve[$i] = false;
             }
         }
 
-        $newPrimes = array_map(
-            static fn(int $number): int => ($number << 1) + 1 + $lowerBound,
-            array_keys($sieve, true, true),
-        );
+        for ($i = 0; $i < $limit; $i++) {
+            if ($sieve[$i]) {
+                self::$primes[] = ($i << 1) + 1 + $lowerBound;
+            }
+        }
 
-        array_push(self::$primes, ... $newPrimes);
         self::$count = \count(self::$primes);
         self::$bound = $upperBound;
     }

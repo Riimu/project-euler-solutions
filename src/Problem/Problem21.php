@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
-use Riimu\EulerSolver\Library\PrimeMath;
+use Riimu\EulerSolver\Library\DivisorMath;
 
 /**
  * @author Riikka Kalliomäki <riikka.kalliomaki@gmail.com>
@@ -29,7 +29,7 @@ class Problem21 implements EulerProblem
                 continue;
             }
 
-            $b = $this->getSumOfProperDivisors($a);
+            $b = DivisorMath::getSumOfProperDivisors($a);
 
             if ($b <= $a) {
                 continue;
@@ -40,7 +40,7 @@ class Problem21 implements EulerProblem
             if (\array_key_exists($b, $sums)) {
                 $bSum = $sums[$b];
             } else {
-                $bSum = $this->getSumOfProperDivisors($b);
+                $bSum = DivisorMath::getSumOfProperDivisors($b);
                 $sums[$b] = $bSum;
             }
 
@@ -56,14 +56,5 @@ class Problem21 implements EulerProblem
         return $total;
     }
 
-    public function getSumOfProperDivisors(int $number): int
-    {
-        $sum = 1;
 
-        foreach (PrimeMath::countFactors($number) as $prime => $count) {
-            $sum *= intdiv($prime ** ($count + 1) - 1, $prime - 1);
-        }
-
-        return $sum - $number;
-    }
 }
