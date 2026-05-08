@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
+use Riimu\EulerSolver\Library\DivisorMath;
 use Riimu\EulerSolver\Library\PrimeMath;
 
 /**
@@ -28,7 +29,7 @@ class Problem5 implements EulerProblem
         $commonFactors = [];
 
         foreach ($numbers as $number) {
-            foreach (PrimeMath::countFactors($number) as $factor => $count) {
+            foreach (DivisorMath::getPrimeFactors($number) as $factor => $count) {
                 $commonFactors[$factor] = max($commonFactors[$factor] ?? 0, $count);
             }
         }

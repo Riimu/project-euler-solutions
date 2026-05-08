@@ -6,6 +6,7 @@ namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
 use Riimu\EulerSolver\Library\BasicMath;
+use Riimu\EulerSolver\Library\DivisorMath;
 use Riimu\EulerSolver\Library\PrimeMath;
 
 /**
@@ -37,7 +38,7 @@ class Problem12 implements EulerProblem
     private function countDivisors(int $number): int
     {
         return array_reduce(
-            PrimeMath::countFactors($number),
+            DivisorMath::getPrimeFactors($number),
             static fn(int $carry, int $x): int => $carry * ($x + 1),
             1,
         );

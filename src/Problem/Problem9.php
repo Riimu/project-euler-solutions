@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
+use Riimu\EulerSolver\Library\DivisorMath;
 use Riimu\EulerSolver\Library\PrimeMath;
 
 /**
@@ -47,7 +48,7 @@ class Problem9 implements EulerProblem
             $k = ($m & 1) === 1 ? $m + 2 : $m + 1;
 
             while ($k < 2 * $m && $k <= $sm) {
-                if ($sm % $k === 0 && PrimeMath::getGreatestCommonDivisor($k, $m) === 1) {
+                if ($sm % $k === 0 && DivisorMath::getGreatestCommonDivisor($k, $m) === 1) {
                     $d = $half / ($k * $m);
                     $n = $k - $m;
                     $a = $d * ($m * $m - $n * $n);

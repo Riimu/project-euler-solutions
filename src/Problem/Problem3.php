@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Riimu\EulerSolver\Problem;
 
 use Riimu\EulerSolver\EulerProblem;
+use Riimu\EulerSolver\Library\DivisorMath;
 use Riimu\EulerSolver\Library\PrimeMath;
 
 /**
@@ -21,6 +22,6 @@ class Problem3 implements EulerProblem
 
     public function getHighestPrimeFactor(int $number): int
     {
-        return max(array_keys(PrimeMath::countFactors($number)));
+        return max(array_keys(DivisorMath::getPrimeFactors($number)));
     }
 }
