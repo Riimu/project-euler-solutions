@@ -24,14 +24,25 @@ class Problem27 implements EulerProblem
         $bCandidates = PrimeMath::getPrimesUpTo($limitB);
         $maxPrime = $limitB;
         $primes = array_flip($bCandidates);
+        $aPrimes = PrimeMath::getPrimesUpTo(($limitA - 1) + $limitB + 1);
 
         $resultA = 0;
         $resultB = 0;
         $maxCount = 0;
 
-        for ($a = -$limitA + 1; $a < $limitA; $a++) {
-            foreach ($bCandidates as $b) {
-                for ($n = 0; true; $n++) {
+        foreach ($bCandidates as $b) {
+            foreach ($aPrimes as $aPrime) {
+                $a = $aPrime - $b - 1;
+
+                if ($a <= -$limitA) {
+                    continue;
+                }
+
+                if ($a >= $limitA) {
+                    break;
+                }
+
+                for ($n = 2; true; $n++) {
                     $test = $n ** 2 + $a * $n + $b;
 
                     if ($test < 0) {

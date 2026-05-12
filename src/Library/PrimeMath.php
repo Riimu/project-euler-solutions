@@ -17,26 +17,13 @@ class PrimeMath
     private static int $bound = 8;
 
     /**
-     * @param int $count
-     * @return list<int>
-     */
-    public static function getPrimes(int $count): array
-    {
-        while (self::$count < $count) {
-            self::findMorePrimes();
-        }
-
-        return \array_slice(self::$primes, 0, $count);
-    }
-
-    /**
      * @param int $target
      * @return list<int>
      */
     public static function getPrimesUpTo(int $target): array
     {
         $position = self::findNearestPosition($target);
-        return \array_splice(self::$primes, 0, $position);
+        return \array_slice(self::$primes, 0, $position);
     }
 
     public static function getPrimeNumber(int $ordinality): int

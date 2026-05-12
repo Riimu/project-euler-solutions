@@ -21,6 +21,6 @@ class Problem10 implements EulerProblem
 
     public function getSumOfPrimesBelow(int $limit): int
     {
-        return array_sum(PrimeMath::getPrimes(PrimeMath::findNearestPosition($limit - 1)));
+        return array_sum(PrimeMath::getPrimesUpTo($limit - 1));
     }
 }
