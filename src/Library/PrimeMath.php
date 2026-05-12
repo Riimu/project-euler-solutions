@@ -29,6 +29,16 @@ class PrimeMath
         return \array_slice(self::$primes, 0, $count);
     }
 
+    /**
+     * @param int $target
+     * @return list<int>
+     */
+    public static function getPrimesUpTo(int $target): array
+    {
+        $position = self::findNearestPosition($target);
+        return \array_splice(self::$primes, 0, $position);
+    }
+
     public static function getPrimeNumber(int $ordinality): int
     {
         while (self::$count < $ordinality) {
