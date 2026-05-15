@@ -21,26 +21,47 @@ class Problem30 implements EulerProblem
     public function getSumOfNumbersThatAreSumsOfDigitPowers(int $power): int
     {
         $sum = 0;
-        $max = 10;
+        $maxDigits = 1;
 
-        for ($i = 1; $i * 9 ** $power > 10 ** $i; $i++) {
-            $max *= 10;
+        while ($maxDigits * 9 ** $power > 10 ** $maxDigits) {
+            $maxDigits++;
         }
 
-        for ($i = 2; $i < $max; $i++) {
-            $total = 0;
-            $digit = $i;
+        foreach ($this->iterateUniqueGroups(range(0, 9), $maxDigits) as $group) {
+            $powerSum = array_reduce($group, static fn(int $carry, int $item): int => $carry + $item ** $power, 0);
+            $powerSumDigits = count_chars(str_pad((string) $powerSum, $maxDigits, '0', \STR_PAD_LEFT), 1);
+            $groupDigits = count_chars(implode('', $group), 1);
 
-            while ($digit > 0) {
-                $total += ($digit % 10) ** $power;
-                $digit = intdiv($digit, 10);
-            }
-
-            if ($total === $i) {
-                $sum += $total;
+            if ($powerSumDigits === $groupDigits && $powerSum > 1) {
+                $sum += $powerSum;
             }
         }
 
         return $sum;
+    }
+
+    /**
+     * @template T of mixed
+     * @param array<T> $items
+     * @param int $amount
+     * @return \Generator<list<T>>
+     */
+    public function iterateUniqueGroups(array $items, int $amount): \Generator
+    {
+        if ($amount < 2) {
+            foreach ($items as $item) {
+                yield [$item];
+            }
+
+            return;
+        }
+
+        $offset = 0;
+
+        foreach ($items as $item) {
+            foreach ($this->iterateUniqueGroups(\array_slice($items, $offset++), $amount - 1) as $group) {
+                yield [$item, ... $group];
+            }
+        }
     }
 }
