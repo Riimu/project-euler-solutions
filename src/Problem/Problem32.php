@@ -24,20 +24,29 @@ class Problem32 implements EulerProblem
         $digits = range(1, $limit);
 
         foreach ($this->getIncreasingDigitCombinations($digits) as $leftDigits) {
+            if ($leftDigits === [1]) {
+                continue;
+            }
+
             $remainingDigits = array_diff($digits, $leftDigits);
+            $leftCount = \count($leftDigits);
             $left = $this->getNumber($leftDigits);
 
-            foreach ($this->getIncreasingDigitCombinations($remainingDigits) as $rightDigits) {
+            if ($leftCount * 3 > $limit) {
+                break;
+            }
+
+            foreach ($this->getIncreasingDigitCombinations($remainingDigits, $leftCount) as $rightDigits) {
                 $right = $this->getNumber($rightDigits);
                 $result = $left * $right;
                 $resultDigits = array_map(intval(...), str_split((string) $result));
-                $totalDigits = \count($leftDigits) + \count($rightDigits) + \count($resultDigits);
+                $totalDigits = $leftCount + \count($rightDigits) + \count($resultDigits);
 
                 if ($totalDigits > $limit) {
                     break;
                 }
 
-                if ($totalDigits === $limit && array_diff($digits, $leftDigits, $rightDigits, $resultDigits) === []) {
+                if ($totalDigits === $limit && array_diff($remainingDigits, $rightDigits, $resultDigits) === []) {
                     $sumValues[$result] = true;
                 }
             }
@@ -46,22 +55,36 @@ class Problem32 implements EulerProblem
         return array_sum(array_keys($sumValues));
     }
 
+    /**
+     * @param list<int> $digits
+     * @return int
+     */
     private function getNumber(array $digits): int
     {
-        return array_reduce($digits, static fn (int $carry, int $item): int => $carry * 10 + $item, 0);
+        return array_reduce($digits, static fn(int $carry, int $item): int => $carry * 10 + $item, 0);
     }
 
-    private function getIncreasingDigitCombinations(array $values): \Generator
+    /**
+     * @param array<int> $values
+     * @param int $min
+     * @return \Generator<list<int>>
+     */
+    private function getIncreasingDigitCombinations(array $values, int $min = 1): \Generator
     {
         $count = \count($values);
 
-        for ($i = 1; $i <= $count; $i++) {
+        for ($i = $min; $i <= $count; $i++) {
             foreach ($this->getCombinations($values, $i) as $combination) {
                 yield $combination;
             }
         }
     }
 
+    /**
+     * @param array<int> $values
+     * @param int $max
+     * @return \Generator<list<int>>
+     */
     private function getCombinations(array $values, int $max): \Generator
     {
         if ($max === 1) {
