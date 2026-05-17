@@ -47,12 +47,12 @@ class Problem32 implements EulerProblem
                 }
 
                 if ($totalDigits === $limit && array_diff($remainingDigits, $rightDigits, $resultDigits) === []) {
-                    $sumValues[$result] = true;
+                    $sumValues[] = $result;
                 }
             }
         }
 
-        return array_sum(array_keys($sumValues));
+        return array_sum(array_unique($sumValues));
     }
 
     /**
