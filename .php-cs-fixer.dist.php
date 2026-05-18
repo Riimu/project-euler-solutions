@@ -13,5 +13,7 @@ $finder = new PhpCsFixer\Finder()
 return new PhpCsFixer\Config()
     ->setRules([
         '@PER-CS' => true,
+
+        'binary_operator_spaces' => ['default' => 'single_space'],
     ])
     ->setFinder($finder);

@@ -31,6 +31,6 @@ class Problem1 implements EulerProblem
 
     private function sumDivisibleBy(int $divisor, int $max): int
     {
-        return $divisor *  BasicMath::getIntegerSum(intdiv($max, $divisor));
+        return $divisor * BasicMath::getIntegerSum(intdiv($max, $divisor));
     }
 }
